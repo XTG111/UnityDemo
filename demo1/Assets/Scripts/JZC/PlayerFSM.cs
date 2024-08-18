@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-enum State {Patrol,Attack,Chase,Dodge}
+public enum State {Patrol,Attack,Chase,Dodge}
 
 public class PlayerFSM : MonoBehaviour
 {
@@ -148,4 +148,9 @@ public class PlayerFSM : MonoBehaviour
             _canattackenemy.Add(fovIns.enemyTargets[i]);
         }
     }*/
+
+    public void SetcurState(State s)
+    {
+        _curstate = s;
+    }
 }
