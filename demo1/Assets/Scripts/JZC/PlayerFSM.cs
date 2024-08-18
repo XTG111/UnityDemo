@@ -14,6 +14,7 @@ public class PlayerFSM : MonoBehaviour
     private State _curstate = State.Patrol;
     private Rigidbody2D _rigidbody;
     private PlayerInfo _playerInfo;
+    private Attack _attack;
 
     public FOV fovIns;
     public PawnMove pawnMove;
@@ -105,6 +106,8 @@ public class PlayerFSM : MonoBehaviour
             Destroy(fovIns.enemyTarget.gameObject);
             fovIns.enemyTarget = null;
         }
+
+        _curstate = State.Patrol;
     }
 
     private void Chase()
@@ -114,7 +117,7 @@ public class PlayerFSM : MonoBehaviour
             transform.position,
             fovIns.enemyTarget.gameObject.transform.position
         );
-        if (distance <= _playerInfo.attackRange)
+        if (distance <= _attack.attackRange)
         {
             _curstate = State.Attack;
         }
@@ -134,7 +137,7 @@ public class PlayerFSM : MonoBehaviour
 
         while (elapsedTime < dodgeDuration)
         {
-            transform.Translate(Vector2.up * (dodgeSpeed * Time.deltaTime));
+            transform.Translate(Vector2.left * (dodgeSpeed * Time.deltaTime));
             elapsedTime += Time.deltaTime;
             yield return null;
         }

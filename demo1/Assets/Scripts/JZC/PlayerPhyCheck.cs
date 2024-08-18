@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerPhyCheck : MonoBehaviour
 {
-    private BoxCollider2D _boxCollider2D;//需要更改
+    private CapsuleCollider2D _capCollider2D;//需要更改
     private IInteractable _targetItem;
     
     public LayerMask groundLayer;
@@ -24,12 +24,12 @@ public class PlayerPhyCheck : MonoBehaviour
     
     private void Awake()
     {
-        _boxCollider2D = GetComponent<BoxCollider2D>();
+        _capCollider2D = GetComponent<CapsuleCollider2D>();
         if (!manual)
         {
             rightOffset = new Vector2(
-                (_boxCollider2D.bounds.size.x + _boxCollider2D.offset.x) / 2,
-                _boxCollider2D.size.y / 2
+                (_capCollider2D.bounds.size.x + _capCollider2D.offset.x) / 2,
+                _capCollider2D.size.y / 2
             );
             leftOffset = new Vector2(
                 -rightOffset.x,

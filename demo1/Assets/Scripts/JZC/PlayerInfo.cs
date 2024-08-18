@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerInfo : MonoBehaviour
 {
@@ -15,8 +16,14 @@ public class PlayerInfo : MonoBehaviour
     public int maxShield = 50;
     public int curShield = 0;
 
-    public int attack = 20;
-    public float attackRange = 5;
+    [Header("免伤")] 
+    public float invulnerableDuration = 5.0f;
+    private float _invulnerableCount = 0.0f;
+    public bool invulnerable;
+
+    [Header("事件")] 
+    public UnityEvent<Transform> OnTackDamge;
+    public UnityEvent OnDeath;
     private void Awake()
     {
         if (instance != null)
@@ -25,7 +32,19 @@ public class PlayerInfo : MonoBehaviour
         }
         instance = this;
         
-        curHp = maxHp-30;
+        curHp = maxHp;
+    }
+
+    private void Update()
+    {
+        if (invulnerable)
+        {
+            _invulnerableCount -= Time.deltaTime;
+            if (_invulnerableCount <= 0.0f)
+            {
+                invulnerable = false;
+            }
+        }
     }
 
     public void SetcurHp(int del)
@@ -47,4 +66,28 @@ public class PlayerInfo : MonoBehaviour
         return curHp;
     }
 
+    public void TakeDamage(Attack attacker)
+    {
+        if (invulnerable) return;
+        SetcurHp(-attacker.attackdamage);
+        if (curHp > 0)
+        {
+            TriggerInvulnerable();
+            OnTackDamge?.Invoke(attacker.transform);
+        }
+        else
+        {
+            //TODO : Die
+            OnDeath?.Invoke();
+        }
+    }
+
+    private void TriggerInvulnerable()
+    {
+        if (!invulnerable)
+        {
+            invulnerable = true;
+            _invulnerableCount = invulnerableDuration;
+        }
+    }
 }

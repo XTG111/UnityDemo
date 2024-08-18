@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,6 +23,11 @@ public class PawnMove : MonoBehaviour
 
     private bool _isFalling;
 
+    [Header("反弹")] 
+    public bool isHurt;
+    public float hurtForce;
+
+    public bool isDead;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -30,7 +36,7 @@ public class PawnMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_ppcheck.bIsGround && controlMove) Move();
+        if(_ppcheck.bIsGround && controlMove && !isHurt) Move();
     }
 
     private void Move()
@@ -41,6 +47,7 @@ public class PawnMove : MonoBehaviour
         var movedir = characterDirx.normalized;
 
         _rigidbody.velocity = new Vector2(movedir.x * (speed * Time.deltaTime), _rigidbody.velocity.y) ;
+        //Debug.Log("speed"+movedir.x * (speed * Time.deltaTime));
     }
 
     public void SetSpeed(float val)
@@ -74,5 +81,18 @@ public class PawnMove : MonoBehaviour
     private void OnLoadEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
     {
         controlMove = false;
+    }
+
+    public void GetHurt(Transform attack)
+    {
+        isHurt = true;
+        _rigidbody.velocity = Vector2.zero;
+        Vector2 dir = new Vector2((transform.position.x - attack.position.x), 0).normalized;
+        _rigidbody.AddForce(dir*hurtForce,ForceMode2D.Impulse);
+    }
+
+    public void PlayerDead()
+    {
+        isDead = true;
     }
 }
