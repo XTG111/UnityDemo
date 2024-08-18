@@ -3,11 +3,11 @@ using UnityEngine.Tilemaps;
 
 public class TrapSpawner : MonoBehaviour
 {
-    //陷阱生成器，挂载到GameManager上面，需将陷阱的预制体挂载到该脚本上
-
-    public Tilemap tilemap; 
+    public Tilemap tilemap;
     public GameObject[] trapPrefabs;  // 用于存储不同的陷阱预制件
     private GameObject currentTrapPrefab;  // 当前选择的陷阱预制件
+
+
 
     void Update()
     {
@@ -28,10 +28,22 @@ public class TrapSpawner : MonoBehaviour
         // 检测鼠标左键放置陷阱
         if (Input.GetMouseButtonDown(0) && currentTrapPrefab != null)
         {
+            
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;  
+            mousePosition.z = 0;
 
-            Instantiate(currentTrapPrefab, mousePosition, Quaternion.identity);
+            // 获取点击位置的Tile坐标
+            Vector3Int tilePosition = tilemap.WorldToCell(mousePosition);
+
+            // 确保Tilemap中的该位置有Tile
+            if (tilemap.GetTile(tilePosition) != null)
+            {
+                // 获取Tile在Tilemap中的位置
+                Vector3 trapPosition = tilemap.GetCellCenterWorld(tilePosition);
+
+                // 实例化陷阱
+                Instantiate(currentTrapPrefab, trapPosition, Quaternion.identity);
+            }
         }
     }
 }
