@@ -132,7 +132,7 @@ ScriptedImporter:
       y: 4
       width: 20
       height: 40
-    spriteID: 86e6dcb96bb466b49bd62d9945d2b5d6
+    spriteID: 768a70ba01a6d46408e652a938e4cd29
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -152,7 +152,7 @@ ScriptedImporter:
       y: 49
       width: 35
       height: 28
-    spriteID: 151ce4c2c1c7c9148bb2c727d29cb92e
+    spriteID: d3f0376188f799c4a9971a6ed04c5f32
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -172,7 +172,7 @@ ScriptedImporter:
       y: 85
       width: 29
       height: 21
-    spriteID: 5d99770d50cc56e4585eee5ed01d2ac0
+    spriteID: a29770292c41737418b459feb6745e1c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -192,7 +192,7 @@ ScriptedImporter:
       y: 4
       width: 36
       height: 37
-    spriteID: 87325caac65076141bc42d8d4f3d852f
+    spriteID: 017df80b59e593e4abf1d22b4d35d021
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -218,7 +218,7 @@ ScriptedImporter:
         y: 19
         width: 20
         height: 40
-      spriteId: 86e6dcb96bb466b49bd62d9945d2b5d6
+      spriteId: 768a70ba01a6d46408e652a938e4cd29
     - name: Fly_Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -227,7 +227,7 @@ ScriptedImporter:
         y: 20
         width: 35
         height: 28
-      spriteId: 151ce4c2c1c7c9148bb2c727d29cb92e
+      spriteId: d3f0376188f799c4a9971a6ed04c5f32
     - name: Fly_Frame_2
       frameIndex: 2
       additiveSortOrder: 0
@@ -236,7 +236,7 @@ ScriptedImporter:
         y: 20
         width: 29
         height: 21
-      spriteId: 5d99770d50cc56e4585eee5ed01d2ac0
+      spriteId: a29770292c41737418b459feb6745e1c
     - name: Fly_Frame_3
       frameIndex: 3
       additiveSortOrder: 0
@@ -245,7 +245,7 @@ ScriptedImporter:
         y: 20
         width: 36
         height: 37
-      spriteId: 87325caac65076141bc42d8d4f3d852f
+      spriteId: 017df80b59e593e4abf1d22b4d35d021
     linkedCells: []
     parentIndex: -1
   platformSettings: []
