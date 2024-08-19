@@ -25,7 +25,7 @@ public class FOV : MonoBehaviour
 
     void Update()
     {
-        DrawFieldOfView(); // 可以禁用
+        //DrawFieldOfView(); // 可以禁用
         FindEnemyTargets();
         FindObstacleTargets();
     }

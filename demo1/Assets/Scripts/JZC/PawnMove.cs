@@ -38,7 +38,7 @@ public class PawnMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_ppcheck.bIsGround && controlMove && !isHurt) Move();
+        if(_ppcheck.bIsGround && controlMove && !isHurt && !isDead) Move();
     }
 
     private void Move()

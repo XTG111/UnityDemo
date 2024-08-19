@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerInfo : MonoBehaviour
 {
-    public static PlayerInfo instance; 
+    public static PlayerInfo instance;
+    private PlayerBeheviour _playerBeheviour;
     
     [Header("人物属性")] 
     public int maxHp = 100;
@@ -15,6 +17,10 @@ public class PlayerInfo : MonoBehaviour
 
     public int maxShield = 50;
     public int curShield = 0;
+
+    public float dieTime = 2.0f;
+    [Header("恶魔之泪增加伤害")] 
+    public float addDamage = 1.0f;
 
     [Header("免伤")] 
     public float invulnerableDuration = 5.0f;
@@ -24,6 +30,13 @@ public class PlayerInfo : MonoBehaviour
     [Header("事件")] 
     public UnityEvent<Transform> OnTackDamge;
     public UnityEvent OnDeath;
+    public UnityEvent<PlayerInfo> OnHealthChange;
+    
+    [Header("死亡后切换地图")]
+    public SeceneLoadEventSO LoadEventSo;
+    public GameSceneSO goToScene;
+    public Vector3 goToLoc;
+    
     private void Awake()
     {
         if (instance != null)
@@ -31,10 +44,20 @@ public class PlayerInfo : MonoBehaviour
             Destroy(gameObject);
         }
         instance = this;
-        
-        curHp = maxHp;
+
+        _playerBeheviour = GetComponent<PlayerBeheviour>();
     }
 
+    private void Start()
+    {
+        InitialHP();
+    }
+
+    public void InitialHP()
+    {
+        curHp = maxHp;
+        OnHealthChange?.Invoke(this);
+    }
     private void Update()
     {
         if (invulnerable)
@@ -69,7 +92,11 @@ public class PlayerInfo : MonoBehaviour
     public void TakeDamage(Attack attacker)
     {
         if (invulnerable) return;
-        SetcurHp(-attacker.attackdamage);
+        var realDamage = _playerBeheviour.bst == BoomState.Seco_TakeDamage
+            ? attacker.attackdamage * addDamage
+            : attacker.attackdamage;
+        SetcurHp(-(int)realDamage);
+        OnHealthChange?.Invoke(this);
         if (curHp > 0)
         {
             TriggerInvulnerable();
@@ -79,9 +106,16 @@ public class PlayerInfo : MonoBehaviour
         {
             //TODO : Die
             OnDeath?.Invoke();
+            LoadEventSo.RaiseLoadRequestEvent(goToScene,goToLoc,true);
         }
+        
     }
 
+    IEnumerator GoToMenu()
+    {
+        yield return new WaitForSeconds(dieTime);
+        LoadEventSo.RaiseLoadRequestEvent(goToScene,goToLoc,true);
+    }
     private void TriggerInvulnerable()
     {
         if (!invulnerable)

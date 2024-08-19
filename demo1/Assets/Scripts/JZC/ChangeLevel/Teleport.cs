@@ -14,7 +14,7 @@ public class Teleport : MonoBehaviour,IInteractable
         if (!_trigger)
         {
             _trigger = true;
-            LoadEventSo.RaiseLoadRequestEvent(sceneToGo,positionToGo,true);
+            LoadEventSo.RaiseLoadRequestEvent(sceneToGo, positionToGo, true);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerPhyCheck : MonoBehaviour
@@ -8,6 +9,7 @@ public class PlayerPhyCheck : MonoBehaviour
     private CapsuleCollider2D _capCollider2D;//需要更改
     private IInteractable _targetItem;
     private PawnMove _pawnMove;
+    private PlayerBeheviour _playerBeheviour;
     
     public bool manual;
     
@@ -31,13 +33,25 @@ public class PlayerPhyCheck : MonoBehaviour
     public float nearX = 0.5f;
     public float farX = 2.5f;
     public float raydisY = 2.0f;
+
+    [Header("当前离地高度")] 
+    public float damageHigh = 4.0f;
+    private float curHigh = 0;
+    [Header("下落伤害")]
+    public float baseDamage = 5.0f;
+    public float addDamage = 1.0f;
     
     public bool canJump;
+    
+    [Header("恶魔之泪状态")]
+    public bool underEmo = false;
+    public float debuffTime = 0.0f;
 
     private void Awake()
     {
         _capCollider2D = GetComponent<CapsuleCollider2D>();
         _pawnMove = GetComponent<PawnMove>();
+        _playerBeheviour = GetComponent<PlayerBeheviour>();
         if (!manual)
         {
             rightOffset = new Vector2(
@@ -57,6 +71,7 @@ public class PlayerPhyCheck : MonoBehaviour
         Check();
         CheckWall();
         CheckKeng();
+        if(!bIsGround) CheckHigh();
     }
 
     public void Check()
@@ -115,6 +130,39 @@ public class PlayerPhyCheck : MonoBehaviour
             transform.localScale = scale;
         }
     }
+
+    public void CheckHigh()
+    {
+        bool isFacingRight = transform.localScale.x > 0;
+        // 射线的方向根据角色朝向调整
+        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+        Vector2 lowpoint = new Vector2(transform.position.x, transform.position.y);
+        RaycastHit2D hitk1 = Physics2D.Raycast(lowpoint, Vector2.down, 50f, groundLayer);
+        if (hitk1.collider != null)
+        {
+            var high = Vector2.Distance(transform.position, hitk1.point);
+            curHigh = Mathf.Max(high, curHigh);
+        }
+        else curHigh = 50.0f;
+    }
+    
+    public void HighDamage()
+    {
+        if (bIsGround && curHigh >= damageHigh)
+        {
+            if (_playerBeheviour.curState == BehaviourState.BoomPlayer && _playerBeheviour.bst != BoomState.Seco_TakeDamage)
+            {
+                baseDamage *= addDamage;
+            }
+            else baseDamage = 1.0f;
+            int damage = (int)(baseDamage * curHigh);
+            int range = 1;
+            Attack highAttack = new Attack(damage,range);
+            gameObject.GetComponent<PlayerInfo>()?.TakeDamage(highAttack);
+        }
+
+        curHigh = 0.0f;
+    }
     
     //检测Buff
     private void OnTriggerStay2D(Collider2D other)
@@ -122,7 +170,19 @@ public class PlayerPhyCheck : MonoBehaviour
         if(other.CompareTag("Interactable"))
         {
             _targetItem = other.GetComponent<IInteractable>();
-            _targetItem.TriggerAction(gameObject);
+            //_targetItem.TriggerAction(gameObject);
+        }
+        
+        //TODO: 恶魔之泪
+        if (other.CompareTag(""))
+        {
+            if (underEmo == false)
+            {
+                //读取debuff时间
+                underEmo = true;
+                //debuffTime = 
+            }
+            
         }
     }
 

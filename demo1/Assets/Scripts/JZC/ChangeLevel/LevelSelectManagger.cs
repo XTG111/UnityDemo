@@ -68,7 +68,7 @@ public class LevelSelectManagger : MonoBehaviour
 
     private IEnumerator UnLoadPrevScene()
     {
-        player.SetActive(false);
+        //player.SetActive(false);
         if (_fadeScreen)
         {
             fadeEvent.FadeIn(fadeDuration);
@@ -98,8 +98,19 @@ public class LevelSelectManagger : MonoBehaviour
         {
             fadeEvent.FadeOut(fadeDuration);
         }
-        player.SetActive(true);
+        //player.SetActive(true);
+        player.GetComponent<PawnMove>().isDead = false;
+        player.GetComponent<PlayerInfo>().InitialHP();
+
         _isloading = false;
         if(currentLoadScene.sceneType != SceneType.Main) afterLoadedEvent.RasiedEvent();
+        
+        //能力切换
+        var playerbhv = player.GetComponent<PlayerBeheviour>();
+        if (playerbhv)
+        {
+            playerbhv.ChangeState();
+        }
+
     }
 }
