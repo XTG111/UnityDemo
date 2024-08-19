@@ -10,6 +10,9 @@ public class TrapSpawner : MonoBehaviour
 
     private HashSet<Vector3Int> occupiedPositions = new HashSet<Vector3Int>();  // 记录已放置陷阱的位置
 
+    public int maxTrapCount = 10;  // 最大生成次数
+    private int currentTrapCount = 0;  // 当前已生成的陷阱数量
+
     void Update()
     {
         // 检测数字键选择陷阱
@@ -25,10 +28,29 @@ public class TrapSpawner : MonoBehaviour
         {
             currentTrapPrefab = trapPrefabs[2];
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            currentTrapPrefab = trapPrefabs[3];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            currentTrapPrefab = trapPrefabs[4];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            currentTrapPrefab = trapPrefabs[5];
+        }
 
         // 检测鼠标左键放置陷阱
         if (Input.GetMouseButtonDown(0) && currentTrapPrefab != null)
         {
+            // 确保当前生成的陷阱数量未超过最大生成次数
+            if (currentTrapCount >= maxTrapCount)
+            {
+                Debug.Log("已达到最大陷阱生成次数！");
+                return;
+            }
+
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;
 
@@ -46,6 +68,9 @@ public class TrapSpawner : MonoBehaviour
 
                 // 记录该位置已被占用
                 occupiedPositions.Add(tilePosition);
+
+                // 增加已生成的陷阱数量
+                currentTrapCount++;
             }
         }
     }

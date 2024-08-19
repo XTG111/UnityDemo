@@ -696,6 +696,10 @@ MonoBehaviour:
   - {fileID: 6407592558308210416, guid: d7e203d34f1ec0b449f21b02c8fdc788, type: 3}
   - {fileID: 2854886290179810763, guid: 90024339e62673c41b5db5a5d6d1d584, type: 3}
   - {fileID: 581878535730260781, guid: e6f4e1f0f36dfac4abe701ef7e982537, type: 3}
+  - {fileID: 2854886290179810763, guid: c3f654ee1b23c174fb3f678cd832451d, type: 3}
+  - {fileID: 2854886290179810763, guid: 92f4b2d45af911f48b4287b50bb6c5f6, type: 3}
+  - {fileID: 2854886290179810763, guid: f0767736851ec5046be001d9f57b1401, type: 3}
+  maxTrapCount: 10
 --- !u!4 &664656418
 Transform:
   m_ObjectHideFlags: 0
