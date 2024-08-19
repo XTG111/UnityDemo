@@ -1,3 +1,5 @@
+using System;
+using System.Net.Http.Headers;
 using UnityEngine;
 
 public class Power_Trap : MonoBehaviour
@@ -7,6 +9,13 @@ public class Power_Trap : MonoBehaviour
 
     private float timer = 0.0f;      // 蓄力计时器
     private bool isCharging = false; // 是否正在蓄力
+
+    private Attack _attack;
+
+    private void Awake()
+    {
+        _attack = GetComponent<Attack>();
+    }
 
     private void Start()
     {
@@ -47,18 +56,19 @@ public class Power_Trap : MonoBehaviour
             new Vector2(transform.position.x + 10f, trapY + 0.5f)
         );
         // 需与敌人脚本通信
-        /*foreach (var enemy in enemies)
+        foreach (var enemy in enemies)
         {
             if (enemy.CompareTag("Enemy"))
             {
                 // 假设敌人有一个名为 EnemyStatus 的脚本来处理伤害
-                EnemyStatus enemyStatus = enemy.GetComponent<EnemyStatus>();
-                if (enemyStatus != null)
+                PlayerInfo playerInfo = enemy.GetComponent<PlayerInfo>();
+                if (playerInfo != null)
                 {
-                    enemyStatus.TakeDamage(damageAmount);
+                    _attack.attackdamage = (int)damageAmount;
+                    playerInfo.TakeDamage(_attack);
                 }
             }
-        }*/
+        }
 
         // 销毁陷阱对象
         Destroy(gameObject);

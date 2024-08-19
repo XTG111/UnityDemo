@@ -123,8 +123,10 @@ public class PlayerBeheviour : MonoBehaviour
         switch (sst)
         {
             case SpeedState.Init_FastSpeed:
+                FastSpeed();
                 break;
             case SpeedState.Seco_LowSpeed:
+                LowSpeed();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -133,19 +135,21 @@ public class PlayerBeheviour : MonoBehaviour
 
     public void FastSpeed()
     {
-        _playerFsm.patrolSpeed *= fastSpeed;
+        _playerFsm.patrolSpeed += fastSpeed;
         if (_playerPhyCheck.underDici)
         {
             sst = SpeedState.Seco_LowSpeed;
         }
+        Debug.Log("speed: "+GetComponent<Rigidbody2D>().velocity.x);
     }
 
     public void LowSpeed()
     {
-        _playerFsm.patrolSpeed *= lowSpeed;
-        if (_playerPhyCheck.underDici)
+        _playerFsm.patrolSpeed += lowSpeed;
+        if (!_playerPhyCheck.underDici)
         {
             sst = SpeedState.Init_FastSpeed;
         }
+        Debug.Log("speed: "+GetComponent<Rigidbody2D>().velocity.x);
     }
 }

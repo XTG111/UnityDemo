@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -190,21 +191,21 @@ public class PlayerPhyCheck : MonoBehaviour
         }
         
         //TODO: 恶魔之泪
-        if (other.CompareTag(""))
+        if (other.CompareTag("Emo"))
         {
             if (bInEmo) return;
             bInEmo = true;
             //读取debuff时间
             underEmo = true;
-            //debuffTime = 
-
+            debuffTime = other.GetComponent<Evil_Trap>().debuffDuration;
+            Destroy(other);
         }
         
         //TODO: 地刺
-        if (other.CompareTag(""))
+        if (other.CompareTag("Lurker"))
         {
             if (bInDici) return;
-            bInDici = true;
+            bInDici  = true;
             underDici = true;
         }
     }
@@ -212,9 +213,9 @@ public class PlayerPhyCheck : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         //TODO: 地刺
-        if (other.CompareTag(""))
+        if (other.CompareTag("Lurker") && bInDici)
         {
-            bInDici = false;
+            bInDici  = false;
             underDici = false;
         }
     }
