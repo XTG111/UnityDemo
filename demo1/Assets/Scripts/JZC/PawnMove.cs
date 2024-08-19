@@ -26,7 +26,9 @@ public class PawnMove : MonoBehaviour
     [Header("反弹")] 
     public bool isHurt;
     public float hurtForce;
-
+    [Header("Jump")]
+    public float jumpForce = 7.0f;
+    
     public bool isDead;
     private void Awake()
     {
@@ -46,10 +48,18 @@ public class PawnMove : MonoBehaviour
 
         var movedir = characterDirx.normalized;
 
-        _rigidbody.velocity = new Vector2(movedir.x * (speed * Time.deltaTime), _rigidbody.velocity.y) ;
+        _rigidbody.velocity = new Vector2(movedir.x * transform.localScale.x * (speed * Time.deltaTime), _rigidbody.velocity.y) ;
         //Debug.Log("speed"+movedir.x * (speed * Time.deltaTime));
     }
 
+    public void Jump()
+    {
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+        bool isFacingRight = transform.right.x < 0 ? false : true;
+        Vector2 jumpDirection = isFacingRight ? new Vector2(1, 1).normalized : new Vector2(-1, 1).normalized;
+        _rigidbody.AddForce(jumpDirection*jumpForce,ForceMode2D.Impulse);
+    }
+    
     public void SetSpeed(float val)
     {
         speed = val;
@@ -90,7 +100,8 @@ public class PawnMove : MonoBehaviour
         Vector2 dir = new Vector2((transform.position.x - attack.position.x), 0).normalized;
         _rigidbody.AddForce(dir*hurtForce,ForceMode2D.Impulse);
     }
-
+    
+    
     public void PlayerDead()
     {
         isDead = true;
