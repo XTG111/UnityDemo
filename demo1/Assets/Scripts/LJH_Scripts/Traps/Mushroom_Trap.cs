@@ -8,7 +8,9 @@ public class Mushroom_Trap : MonoBehaviour
     // 蘑菇陷阱的触发器范围
     public float triggerRadius = 1f;
 
-    // 碰撞体组件
+    // 销毁延迟时间
+    public float destroyDelay = 10f;
+
     private void Start()
     {
         // 确保陷阱具有一个 Collider2D 组件
@@ -16,6 +18,9 @@ public class Mushroom_Trap : MonoBehaviour
         {
             Debug.LogWarning("Mushroom_Trap requires a Collider2D component.");
         }
+
+        // 设置销毁计时器
+        Invoke("DestroyTrap", destroyDelay);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,5 +37,11 @@ public class Mushroom_Trap : MonoBehaviour
                 enemyRigidbody.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
             }
         }
+    }
+
+    // 自动销毁陷阱的方法
+    private void DestroyTrap()
+    {
+        Destroy(gameObject);
     }
 }
