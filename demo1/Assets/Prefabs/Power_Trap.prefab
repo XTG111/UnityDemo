@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8750182884644168866}
   - component: {fileID: 1102643900952659595}
   - component: {fileID: -537086358612069499}
+  - component: {fileID: -7131787019139084847}
   m_Layer: 0
   m_Name: Power_Trap
   m_TagString: Untagged
@@ -127,3 +128,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeTime: 2
   damageAmount: 70
+--- !u!114 &-7131787019139084847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2854886290179810763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a69ef3bce1470542bef3fc5cde945c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackdamage: 20
+  attackRange: 1
+  isBoom: 0
+  lastLoc: {x: 0, y: 0, z: 0}

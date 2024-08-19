@@ -194,11 +194,12 @@ public class PlayerPhyCheck : MonoBehaviour
         if (other.CompareTag("Emo"))
         {
             if (bInEmo) return;
+            Debug.Log("Emo");
             bInEmo = true;
             //读取debuff时间
             underEmo = true;
             debuffTime = other.GetComponent<Evil_Trap>().debuffDuration;
-            Destroy(other);
+            Destroy(other.gameObject);
         }
         
         //TODO: 地刺
@@ -230,16 +231,19 @@ public class PlayerPhyCheck : MonoBehaviour
         Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
         Vector2 lowpoint = new Vector2(transform.position.x, transform.position.y + 1.5f);
         RaycastHit2D hitx = Physics2D.Raycast(lowpoint, direction, 1.0f, groundLayer);
-        if (hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.sst == SpeedState.Init_FastSpeed)
+        if (hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.curState == BehaviourState.SpeedPlayer && _playerBeheviour.sst == SpeedState.Init_FastSpeed)
         {
+            //Debug.Log("Wood" + hitx.collider);
             hitx.collider.isTrigger = true;
         }
-        else if(hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.sst != SpeedState.Init_FastSpeed)
+        else if(hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.curState == BehaviourState.SpeedPlayer && _playerBeheviour.sst != SpeedState.Init_FastSpeed)
         {
-            hitx.collider.isTrigger = false;
-            var scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+            {
+                hitx.collider.isTrigger = false;
+                var scale = transform.localScale;
+                scale.x *= -1;
+                transform.localScale = scale;
+            }
         }
         //if(hitx) Debug.Log("Wood" + hitx.collider);
     }

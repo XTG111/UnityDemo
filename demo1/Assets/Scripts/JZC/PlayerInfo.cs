@@ -108,9 +108,10 @@ public class PlayerInfo : MonoBehaviour
             OnDeath?.Invoke();
             LoadEventSo.RaiseLoadRequestEvent(goToScene,goToLoc,true);
         }
-
+        //Debug.Log("Damage");
         if (attacker.isBoom)
         {
+            attacker.isBoom = false;
             StartCoroutine(ReturnLoc());
         }
     }
@@ -118,7 +119,7 @@ public class PlayerInfo : MonoBehaviour
     IEnumerator ReturnLoc()
     {
         yield return new WaitForSeconds(2);
-        transform.position = transform.position + transform.right * 4;
+        transform.position = transform.position + transform.right * 4 + transform.up * 2;
     }
     IEnumerator GoToMenu()
     {

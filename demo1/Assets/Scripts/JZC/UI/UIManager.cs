@@ -23,5 +23,6 @@ public class UIManager : MonoBehaviour
     {
         var perc = (float)playerInfo.curHp / playerInfo.maxHp;
         healthBar.OnHealthChange(perc);
+        //Debug.Log("Damage");
     }
 }

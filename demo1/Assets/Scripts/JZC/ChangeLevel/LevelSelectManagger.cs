@@ -101,13 +101,12 @@ public class LevelSelectManagger : MonoBehaviour
         //player.SetActive(true);
         player.GetComponent<PawnMove>().isDead = false;
         player.GetComponent<PlayerInfo>().InitialHP();
-
         _isloading = false;
         if(currentLoadScene.sceneType != SceneType.Main) afterLoadedEvent.RasiedEvent();
         
         //能力切换
         var playerbhv = player.GetComponent<PlayerBeheviour>();
-        if (playerbhv)
+        if (playerbhv && currentLoadScene.sceneType != SceneType.Main)
         {
             playerbhv.ChangeState();
         }

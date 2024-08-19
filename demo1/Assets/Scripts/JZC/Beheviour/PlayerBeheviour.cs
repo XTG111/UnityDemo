@@ -140,9 +140,24 @@ public class PlayerBeheviour : MonoBehaviour
             change = true;
             
         }*/
+        if (_playerPhyCheck.underEmo)
+        {
+            _playerPhyCheck.underEmo = false;
+            timeRemaining = _playerPhyCheck.debuffTime;
+            isActive = true;
+            _playerPhyCheck.bInEmo = false;
+            bst = BoomState.Seco_TakeDamage;
+        }
+        if (isActive)
+        {
+            timeRemaining -= Time.deltaTime;
+            if (timeRemaining <= 0.0f)
+            {
+                bst = BoomState.Init_NoDamage;
+            }
+        }
         if (_playerPhyCheck.underDici)
         {
-            //_playerFsm.patrolSpeed *= lowSpeed;
             _playerFsm.patrolSpeed = lowSpeed;
             change = false;
             sst = SpeedState.Seco_LowSpeed;
@@ -152,12 +167,23 @@ public class PlayerBeheviour : MonoBehaviour
 
     public void LowSpeed()
     {
-        /*if (!change)
+       
+        if (_playerPhyCheck.underEmo)
         {
-            change = true;
-            _playerFsm.patrolSpeed *= lowSpeed;
-        }*/
-        
+            _playerPhyCheck.underEmo = false;
+            timeRemaining = _playerPhyCheck.debuffTime;
+            isActive = true;
+            _playerPhyCheck.bInEmo = false;
+            bst = BoomState.Seco_TakeDamage;
+        }
+        if (isActive)
+        {
+            timeRemaining -= Time.deltaTime;
+            if (timeRemaining <= 0.0f)
+            {
+                bst = BoomState.Init_NoDamage;
+            }
+        }
         if (!_playerPhyCheck.underDici)
         {
             //_playerFsm.patrolSpeed *= fastSpeed;
