@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2349690009608145087
 Transform:
   m_ObjectHideFlags: 0
@@ -37,7 +37,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8470312115577362818}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.38, y: 17.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   speed: 0
   isHurt: 0
   hurtForce: 0
-  jumpForce: 7
+  jumpForce: 10
   isDead: 0
 --- !u!114 &8495481704737879704
 MonoBehaviour:
@@ -229,10 +229,10 @@ MonoBehaviour:
     m_Bits: 256
   nearX: 0.5
   farX: 2.5
-  raydisY: 1.1
-  damageHigh: 4
-  baseDamage: 5
-  addDamage: 1
+  raydisY: 4.1
+  damageHigh: 5
+  baseDamage: 40
+  addDamage: 40
   canJump: 0
   bInEmo: 0
   underEmo: 0
@@ -403,12 +403,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 100
-  curHp: 70
-  maxShield: 50
+  curHp: 100
+  maxShield: 0
   curShield: 0
   dieTime: 2
-  addDamage: 2
-  invulnerableDuration: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  addDamage: 20
+  invulnerableDuration: 0
   invulnerable: 0
   OnTackDamge:
     m_PersistentCalls:
@@ -429,6 +432,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: PawnMove, Assembly-CSharp
         m_MethodName: GetHurt
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 1df7c826bcece9e40a7110fbefd3954f, type: 2}
+        m_TargetAssemblyTypeName: VoidEventSO, Assembly-CSharp
+        m_MethodName: RasiedEvent
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -494,11 +509,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b9211374c73d2f4da0f480946f9f0c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curState: 1
+  curState: 0
   bst: 0
   sst: 0
-  fastSpeed: 1.5
-  lowSpeed: 0.5
+  fastSpeed: 100
+  lowSpeed: 100
 --- !u!114 &7808178645356535436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,6 +528,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackdamage: 20
   attackRange: 1
+  isBoom: 0
+  lastLoc: {x: 0, y: 0, z: 0}
 --- !u!1 &8805044449210142093
 GameObject:
   m_ObjectHideFlags: 0

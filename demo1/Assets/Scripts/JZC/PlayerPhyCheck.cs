@@ -143,6 +143,7 @@ public class PlayerPhyCheck : MonoBehaviour
 
         if (bIsGround && hitk1.collider == null && hitk2.collider == null)
         {
+            Debug.Log("scale");
             var scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
@@ -264,12 +265,12 @@ public class PlayerPhyCheck : MonoBehaviour
         Gizmos.DrawLine(lowpoint, lowpoint + direction * 2);
         //RaycastHit2D hitx = Physics2D.Raycast(lowpoint, direction, 1.0f, groundLayer);
         
-        /*var checkpoint1 = new Vector2(transform.position.x - 0.5f, transform.position.y+0.5f);
+        var checkpoint1 = new Vector2(transform.position.x + 0.5f, transform.position.y+0.5f);
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(checkpoint1, checkpoint1 + Vector2.down * 2);
-        var checkpoint2 = new Vector2(transform.position.x - 2.5f, transform.position.y+0.5f);
+        Gizmos.DrawLine(checkpoint1, checkpoint1 + Vector2.down * raydisY);
+        var checkpoint2 = new Vector2(transform.position.x + 2.5f, transform.position.y+0.5f);
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(checkpoint2, checkpoint2 + Vector2.down * 2);*/
+        Gizmos.DrawLine(checkpoint2, checkpoint2 + Vector2.down * raydisY);
         
     }
 }

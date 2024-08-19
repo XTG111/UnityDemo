@@ -19,6 +19,7 @@ public class PlayerInfo : MonoBehaviour
     public int curShield = 0;
 
     public float dieTime = 2.0f;
+    public LayerMask groundLayer;
     [Header("恶魔之泪增加伤害")] 
     public float addDamage = 1.0f;
 
@@ -112,14 +113,29 @@ public class PlayerInfo : MonoBehaviour
         if (attacker.isBoom)
         {
             attacker.isBoom = false;
-            StartCoroutine(ReturnLoc());
+            
+            StartCoroutine(ReturnLoc(attacker.lastLoc));
         }
     }
 
-    IEnumerator ReturnLoc()
+    IEnumerator ReturnLoc(Vector3 pos)
     {
+        bool isFacingRight = transform.localScale.x > 0;
+        // 射线的方向根据角色朝向调整
+        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+        Vector2 lowpoint = new Vector2(pos.x, pos.y - 0.5f);
+        RaycastHit2D hitx = Physics2D.Raycast(lowpoint, direction, 4.0f, groundLayer);
+        var transLoc = new Vector3();
+        if (hitx.collider)
+        {
+            transLoc = hitx.collider.transform.position + transform.up * 2;
+        }
+        else
+        {
+            transLoc = hitx.collider.transform.position;
+        }
         yield return new WaitForSeconds(2);
-        transform.position = transform.position + transform.right * 4 + transform.up * 2;
+        transform.position = transLoc;
     }
     IEnumerator GoToMenu()
     {

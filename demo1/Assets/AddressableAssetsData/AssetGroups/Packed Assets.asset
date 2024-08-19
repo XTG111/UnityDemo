@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Packed Assets
+  m_EditorClassIdentifier: 
+  m_GroupName: Packed Assets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1d8ac920d5fd7484d8845974d937d131
+  m_SerializeEntries:
+  - m_GUID: 3b51f69875fb0ac4fbcf4ffdd21c1817
+    m_Address: Assets/Scenes/FinalScenes/Level-2.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6effc4b43a8a7c546aa4fe8ad4219412
+    m_Address: Assets/Scenes/FinalScenes/Level-1.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 720f953cebb7cd54b82dbf57bd9919ba
+    m_Address: Assets/Scenes/JzcTestSecens/FinalScene/ChooseLevel.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdaa0571b4d0ffd47b10135c69fe3fd1
+    m_Address: Assets/Scenes/JzcTestSecens/New/EmptyBase.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 988f746a296cd3445bb9588adbef7256, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ceacf143e9a159340b9d5c3e584fe940, type: 2}
+    - {fileID: 11400000, guid: 76389e8467b05f042ba02bb82b1147e8, type: 2}

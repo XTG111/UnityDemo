@@ -16,52 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: fc95adfd3c4c2584faa23a950d8b60e5
-  m_SerializeEntries:
-  - m_GUID: 82f110a1a08c36642b27da2455787ba0
-    m_Address: Main
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 82b394146e678ab458c3adee3bf71dbb
-    m_Address: TestScenesForLevel1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: da2d3f54d4e3dfb4898fa02814469d01
-    m_Address: ChooseLevelScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7629e4a64566c91408097e27bd498120
-    m_Address: Level5
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3e4f8d3db29c94d46ad13f5fd7adbc33
-    m_Address: Level2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0aa40ffe037144440969c29d99e4b947
-    m_Address: Level4
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 38771be5b8ac04e4291057c7defc399f
-    m_Address: TestMain
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
-    m_Address: Jzc_TestScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 882c2f61c85c19643b89ff3a06039b47
-    m_Address: Assets/Scenes/JzcTestSecens/FinalSceneTest 1.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 988f746a296cd3445bb9588adbef7256, type: 2}
   m_SchemaSet:
