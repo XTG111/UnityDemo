@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class TrapSpawner : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class TrapSpawner : MonoBehaviour
     public GameObject[] trapPrefabs;  // 用于存储不同的陷阱预制件
     private GameObject currentTrapPrefab;  // 当前选择的陷阱预制件
 
-
+    private HashSet<Vector3Int> occupiedPositions = new HashSet<Vector3Int>();  // 记录已放置陷阱的位置
 
     void Update()
     {
@@ -28,21 +29,23 @@ public class TrapSpawner : MonoBehaviour
         // 检测鼠标左键放置陷阱
         if (Input.GetMouseButtonDown(0) && currentTrapPrefab != null)
         {
-            
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;
 
             // 获取点击位置的Tile坐标
             Vector3Int tilePosition = tilemap.WorldToCell(mousePosition);
 
-            // 确保Tilemap中的该位置有Tile
-            if (tilemap.GetTile(tilePosition) != null)
+            // 确保Tilemap中的该位置有Tile且没有陷阱
+            if (tilemap.GetTile(tilePosition) == null && !occupiedPositions.Contains(tilePosition))
             {
                 // 获取Tile在Tilemap中的位置
                 Vector3 trapPosition = tilemap.GetCellCenterWorld(tilePosition);
 
                 // 实例化陷阱
                 Instantiate(currentTrapPrefab, trapPosition, Quaternion.identity);
+
+                // 记录该位置已被占用
+                occupiedPositions.Add(tilePosition);
             }
         }
     }
