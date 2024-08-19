@@ -62,8 +62,12 @@ public class Bomb_Trap : MonoBehaviour
         foreach (Collider2D enemy in enemies)
         {
             PlayerInfo playerInfo = enemy.GetComponent<PlayerInfo>();
-            bool NoDamage = playerInfo.GetComponent<PlayerBeheviour>().bst == BoomState.Init_NoDamage &&
-                            playerInfo.GetComponent<PlayerBeheviour>().curState == BehaviourState.BoomPlayer;
+            bool NoDamage = true;
+            if(playerInfo) 
+            {
+                NoDamage = playerInfo.GetComponent<PlayerBeheviour>().bst == BoomState.Init_NoDamage &&
+                             playerInfo.GetComponent<PlayerBeheviour>().curState == BehaviourState.BoomPlayer;
+            }
             if (playerInfo != null && !NoDamage)
             {
                 // 调用 TakeDamage 函数

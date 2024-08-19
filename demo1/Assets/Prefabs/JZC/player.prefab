@@ -247,7 +247,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8470312115577362818}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -497,8 +497,8 @@ MonoBehaviour:
   curState: 1
   bst: 0
   sst: 0
-  fastSpeed: 0
-  lowSpeed: -50
+  fastSpeed: 1.5
+  lowSpeed: 0.5
 --- !u!114 &7808178645356535436
 MonoBehaviour:
   m_ObjectHideFlags: 0

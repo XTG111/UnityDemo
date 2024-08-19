@@ -52,7 +52,7 @@ public class PlayerPhyCheck : MonoBehaviour
 
     [Header("地刺状态")] 
     public bool bInDici = false;
-    public bool underDici = false;
+    public bool underDici = true;
 
     private void Awake()
     {
@@ -236,6 +236,7 @@ public class PlayerPhyCheck : MonoBehaviour
         }
         else if(hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.sst != SpeedState.Init_FastSpeed)
         {
+            Debug.Log("Wood");
             hitx.collider.isTrigger = false;
             var scale = transform.localScale;
             scale.x *= -1;

@@ -35,7 +35,7 @@ public class PlayerBeheviour : MonoBehaviour
     [Header("level2 速度")] 
     public float fastSpeed = 1.0f;
     public float lowSpeed = 1.0f;
-    
+    private bool change = false;
     private float timeRemaining = 0.0f;
     private bool isActive = false;
     
@@ -135,21 +135,34 @@ public class PlayerBeheviour : MonoBehaviour
 
     public void FastSpeed()
     {
-        _playerFsm.patrolSpeed += fastSpeed;
+        /*if (!change)
+        {
+            change = true;
+            
+        }*/
         if (_playerPhyCheck.underDici)
         {
+            _playerFsm.patrolSpeed *= lowSpeed;
+            change = false;
             sst = SpeedState.Seco_LowSpeed;
         }
-        Debug.Log("speed: "+GetComponent<Rigidbody2D>().velocity.x);
+        //Debug.Log("speed: "+GetComponent<Rigidbody2D>().velocity.x);
     }
 
     public void LowSpeed()
     {
-        _playerFsm.patrolSpeed += lowSpeed;
+        /*if (!change)
+        {
+            change = true;
+            _playerFsm.patrolSpeed *= lowSpeed;
+        }*/
+        
         if (!_playerPhyCheck.underDici)
         {
+            _playerFsm.patrolSpeed *= fastSpeed;
+            change = false;
             sst = SpeedState.Init_FastSpeed;
         }
-        Debug.Log("speed: "+GetComponent<Rigidbody2D>().velocity.x);
+        //Debug.Log("speed: "+GetComponent<Rigidbody2D>().velocity.x);
     }
 }
