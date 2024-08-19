@@ -82,6 +82,11 @@ public class PlayerPhyCheck : MonoBehaviour
         if(!bIsGround) CheckHigh();
         HighDamage();
         CheckMuKuai();
+        if (raydisY != 4.1f)
+        {
+            return;
+        }
+        
     }
 
     public void Check()
@@ -143,7 +148,7 @@ public class PlayerPhyCheck : MonoBehaviour
 
         if (bIsGround && hitk1.collider == null && hitk2.collider == null)
         {
-            Debug.Log("scale");
+            //Debug.Log("scale");
             var scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;

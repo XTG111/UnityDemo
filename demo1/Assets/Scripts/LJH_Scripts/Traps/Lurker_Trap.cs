@@ -9,6 +9,7 @@ public class Lurker_Trap : MonoBehaviour
     private float damageTimer = 0.0f;  // 计时器，用于跟踪伤害间隔
     private bool isActive = true;      // 陷阱是否仍然活跃
     private Attack _attack;
+    private int underAttack = 0;
 
     private void Awake()
     {
@@ -31,7 +32,7 @@ public class Lurker_Trap : MonoBehaviour
         if (isActive)
         {
             damageTimer += Time.deltaTime;
-
+            
             // 如果计时器超过伤害间隔时间，则造成伤害
             if (damageTimer >= damageInterval)
             {
@@ -45,7 +46,6 @@ public class Lurker_Trap : MonoBehaviour
     {
         // 查找与陷阱接触的敌人，需通信
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, 0.5f); // 0.5f 是触发半径，可以根据需要调整
-
         foreach (var enemy in enemies)
         {
             if (enemy.CompareTag("Enemy"))
@@ -54,8 +54,10 @@ public class Lurker_Trap : MonoBehaviour
                 PlayerInfo enemyStatus = enemy.GetComponent<PlayerInfo>();
                 if (enemyStatus != null)
                 {
+                    //Debug.Log("underAttack"+underAttack);
                     _attack.attackdamage = (int)damageAmount;
                     enemyStatus.TakeDamage(_attack);
+                    underAttack++;
                 }
             }
         }

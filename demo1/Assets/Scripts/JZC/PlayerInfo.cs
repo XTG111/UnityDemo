@@ -94,13 +94,15 @@ public class PlayerInfo : MonoBehaviour
     {
         if (invulnerable) return;
         var realDamage = _playerBeheviour.bst == BoomState.Seco_TakeDamage
-            ? attacker.attackdamage * addDamage
+            ? attacker.attackdamage + addDamage
             : attacker.attackdamage;
-        SetcurHp(-(int)realDamage);
+        //Debug.Log("RealDamage: " + realDamage);
         OnHealthChange?.Invoke(this);
         if (curHp > 0)
         {
             TriggerInvulnerable();
+            SetcurHp(-(int)realDamage);
+            //Debug.Log("RealDamage: " + realDamage);
             OnTackDamge?.Invoke(attacker.transform);
         }
         else
@@ -120,6 +122,7 @@ public class PlayerInfo : MonoBehaviour
 
     IEnumerator ReturnLoc(Vector3 pos)
     {
+        yield return new WaitForSeconds(2);
         bool isFacingRight = transform.localScale.x > 0;
         // 射线的方向根据角色朝向调整
         Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
@@ -132,9 +135,8 @@ public class PlayerInfo : MonoBehaviour
         }
         else
         {
-            transLoc = hitx.collider.transform.position;
+            transLoc = new Vector3(pos.x+4.0f,pos.y+1.0f,pos.z);
         }
-        yield return new WaitForSeconds(2);
         transform.position = transLoc;
     }
     IEnumerator GoToMenu()
