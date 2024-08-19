@@ -8,6 +8,8 @@ TagManager:
   - TestEnemy
   - Interactable
   - Bounds
+  - Enemy
+  - Wood
   layers:
   - Default
   - TransparentFX

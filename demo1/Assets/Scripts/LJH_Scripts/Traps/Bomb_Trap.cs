@@ -1,14 +1,16 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Bomb_Trap : MonoBehaviour
 {
-    public float fallSpeed = 5f; // ÖØÁ¦¼ÓËÙ¶È
-    public float explosionDelay = 1f; // ±¬Õ¨ÑÓ³Ù
-    public float explosionRadius = 3f; // ±¬Õ¨°ë¾¶
-    public float damage = 50f; // ±¬Õ¨ÉËº¦
-    public LayerMask enemyLayer; // µĞÈËµÄ²ã¼¶
+    public float fallSpeed = 5f; // é‡åŠ›åŠ é€Ÿåº¦
+    public float explosionDelay = 1f; // çˆ†ç‚¸å»¶è¿Ÿ
+    public float explosionRadius = 3f; // çˆ†ç‚¸åŠå¾„
+    public float damage = 50f; // çˆ†ç‚¸ä¼¤å®³
+    public LayerMask enemyLayer; // æ•Œäººçš„å±‚çº§
 
+    private Attack _attack;
     private Tilemap bridgeTilemap1;
     private Tilemap bridgeTilemap2;
     private Tilemap bridgeTilemap3;
@@ -16,6 +18,11 @@ public class Bomb_Trap : MonoBehaviour
     private Tilemap platformTilemap;
 
     private bool hasExploded = false;
+
+    private void Awake()
+    {
+        _attack = GetComponent<Attack>();
+    }
 
     private void Start()
     {
@@ -50,20 +57,23 @@ public class Bomb_Trap : MonoBehaviour
 
     private void Explode()
     {
-        // ÉËº¦µĞÈË
+        // ä¼¤å®³æ•Œäºº
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, explosionRadius, enemyLayer);
-        Attack attack = new Attack();
         foreach (Collider2D enemy in enemies)
         {
             PlayerInfo playerInfo = enemy.GetComponent<PlayerInfo>();
-            if (playerInfo != null)
+            bool NoDamage = playerInfo.GetComponent<PlayerBeheviour>().bst == BoomState.Init_NoDamage &&
+                            playerInfo.GetComponent<PlayerBeheviour>().curState == BehaviourState.BoomPlayer;
+            if (playerInfo != null && !NoDamage)
             {
-                // µ÷ÓÃ TakeDamage º¯Êı
-                playerInfo.TakeDamage(attack);
+                // è°ƒç”¨ TakeDamage å‡½æ•°
+                _attack.attackdamage = (int)damage;
+                _attack.attackRange = explosionRadius;
+                playerInfo.TakeDamage(_attack);
             }
         }
 
-        // È·±£ Tilemap ×é¼ş´æÔÚºó´İ»ÙÍßÆ¬
+        // ç¡®ä¿ Tilemap ç»„ä»¶å­˜åœ¨åæ‘§æ¯ç“¦ç‰‡
         if (bridgeTilemap1 != null)
         {
             DestroyTilesInTilemap(bridgeTilemap1);
@@ -85,7 +95,7 @@ public class Bomb_Trap : MonoBehaviour
             DestroyTilesInTilemap(platformTilemap);
         }
 
-        // Ïú»ÙÕ¨µ¯×ÔÉí
+        // é”€æ¯ç‚¸å¼¹è‡ªèº«
         Destroy(gameObject);
     }
 

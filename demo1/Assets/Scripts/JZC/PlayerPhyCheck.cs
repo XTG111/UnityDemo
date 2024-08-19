@@ -10,6 +10,7 @@ public class PlayerPhyCheck : MonoBehaviour
     private IInteractable _targetItem;
     private PawnMove _pawnMove;
     private PlayerBeheviour _playerBeheviour;
+    private Attack _highAttack;
     
     public bool manual;
     
@@ -25,7 +26,7 @@ public class PlayerPhyCheck : MonoBehaviour
 
     [Header("检测墙")] 
     public float lowY = 0.5f;
-    public float highY = 1.5f;
+    public float highY = 2.0f;
     public float raydisX = 1.1f;
     public LayerMask groundLayer;
 
@@ -42,16 +43,22 @@ public class PlayerPhyCheck : MonoBehaviour
     public float addDamage = 1.0f;
     
     public bool canJump;
-    
-    [Header("恶魔之泪状态")]
+
+    [Header("恶魔之泪状态")] 
+    public bool bInEmo = false;
     public bool underEmo = false;
     public float debuffTime = 0.0f;
+
+    [Header("地刺状态")] 
+    public bool bInDici = false;
+    public bool underDici = false;
 
     private void Awake()
     {
         _capCollider2D = GetComponent<CapsuleCollider2D>();
         _pawnMove = GetComponent<PawnMove>();
         _playerBeheviour = GetComponent<PlayerBeheviour>();
+        _highAttack = GetComponent<Attack>();
         if (!manual)
         {
             rightOffset = new Vector2(
@@ -72,6 +79,8 @@ public class PlayerPhyCheck : MonoBehaviour
         CheckWall();
         CheckKeng();
         if(!bIsGround) CheckHigh();
+        HighDamage();
+        CheckMuKuai();
     }
 
     public void Check()
@@ -96,12 +105,20 @@ public class PlayerPhyCheck : MonoBehaviour
         //
         Vector2 heighpoint = new Vector2(transform.position.x, transform.position.y + highY);
         RaycastHit2D hity = Physics2D.Raycast(heighpoint, direction, raydisX, groundLayer);
+
+        if (hitx.collider && hitx.collider.CompareTag("Wood")) return;
+        
         if (bIsGround && hitx.collider != null && hity.collider == null)
         {
             _pawnMove.Jump();
         }
-
         if (bIsGround && hitx.collider != null && hity.collider != null)
+        {
+            var scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
+        if (bIsGround && hitx.collider == null && hity.collider != null)
         {
             var scale = transform.localScale;
             scale.x *= -1;
@@ -155,10 +172,9 @@ public class PlayerPhyCheck : MonoBehaviour
                 baseDamage *= addDamage;
             }
             else baseDamage = 1.0f;
-            int damage = (int)(baseDamage * curHigh);
-            int range = 1;
-            Attack highAttack = new Attack(damage,range);
-            gameObject.GetComponent<PlayerInfo>()?.TakeDamage(highAttack);
+            _highAttack.attackdamage = (int)(baseDamage * curHigh);
+            _highAttack.attackRange = 1;
+            gameObject.GetComponent<PlayerInfo>()?.TakeDamage(_highAttack);
         }
 
         curHigh = 0.0f;
@@ -176,16 +192,56 @@ public class PlayerPhyCheck : MonoBehaviour
         //TODO: 恶魔之泪
         if (other.CompareTag(""))
         {
-            if (underEmo == false)
-            {
-                //读取debuff时间
-                underEmo = true;
-                //debuffTime = 
-            }
-            
+            if (bInEmo) return;
+            bInEmo = true;
+            //读取debuff时间
+            underEmo = true;
+            //debuffTime = 
+
+        }
+        
+        //TODO: 地刺
+        if (other.CompareTag(""))
+        {
+            if (bInDici) return;
+            bInDici = true;
+            underDici = true;
         }
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        //TODO: 地刺
+        if (other.CompareTag(""))
+        {
+            bInDici = false;
+            underDici = false;
+        }
+    }
+
+    
+    //处理木块
+    public void CheckMuKuai()
+    {
+        //检测正前方墙壁
+        bool isFacingRight = transform.localScale.x > 0;
+        // 射线的方向根据角色朝向调整
+        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+        Vector2 lowpoint = new Vector2(transform.position.x, transform.position.y + lowY);
+        RaycastHit2D hitx = Physics2D.Raycast(lowpoint, direction, 1.0f, groundLayer);
+        if (hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.sst == SpeedState.Init_FastSpeed)
+        {
+            hitx.collider.isTrigger = true;
+        }
+        else if(hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.sst != SpeedState.Init_FastSpeed)
+        {
+            hitx.collider.isTrigger = false;
+            var scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
+    }
+    
     private void OnDrawGizmosSelected()
     {
         Vector3 pos = transform.position;
@@ -194,12 +250,20 @@ public class PlayerPhyCheck : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)pos + leftOffset, checkRaius);
         Gizmos.DrawWireSphere((Vector2)pos + rightOffset, checkRaius);
         
-        var checkpoint1 = new Vector2(transform.position.x - 0.5f, transform.position.y+0.5f);
+        
+        bool isFacingRight = transform.localScale.x > 0;
+        // 射线的方向根据角色朝向调整
+        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+        Vector2 lowpoint = new Vector2(transform.position.x, transform.position.y + lowY);
+        Gizmos.DrawLine(lowpoint, lowpoint + direction * 2);
+        //RaycastHit2D hitx = Physics2D.Raycast(lowpoint, direction, 1.0f, groundLayer);
+        
+        /*var checkpoint1 = new Vector2(transform.position.x - 0.5f, transform.position.y+0.5f);
         Gizmos.color = Color.red;
         Gizmos.DrawLine(checkpoint1, checkpoint1 + Vector2.down * 2);
         var checkpoint2 = new Vector2(transform.position.x - 2.5f, transform.position.y+0.5f);
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(checkpoint2, checkpoint2 + Vector2.down * 2);
+        Gizmos.DrawLine(checkpoint2, checkpoint2 + Vector2.down * 2);*/
         
     }
 }

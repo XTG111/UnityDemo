@@ -26,15 +26,24 @@ public class PlayerBeheviour : MonoBehaviour
 {
     private PlayerPhyCheck _playerPhyCheck;
     private PlayerInfo _playerInfo;
+    private PlayerFSM _playerFsm;
     [Header("当前能力")] 
     public BehaviourState curState = BehaviourState.BoomPlayer;
     public BoomState bst = BoomState.Init_NoDamage;
     public SpeedState sst = SpeedState.Init_FastSpeed;
 
+    [Header("level2 速度")] 
+    public float fastSpeed = 1.0f;
+    public float lowSpeed = 1.0f;
+    
+    private float timeRemaining = 0.0f;
+    private bool isActive = false;
+    
     private void Awake()
     {
         _playerPhyCheck = GetComponent<PlayerPhyCheck>();
         _playerInfo = GetComponent<PlayerInfo>();
+        _playerFsm = GetComponent<PlayerFSM>();
     }
 
     public void ChangeState()
@@ -88,19 +97,23 @@ public class PlayerBeheviour : MonoBehaviour
         //触发器通知
         if (_playerPhyCheck.underEmo)
         {
+            _playerPhyCheck.underEmo = false;
+            timeRemaining = _playerPhyCheck.debuffTime;
+            isActive = true;
+            _playerPhyCheck.bInEmo = false;
             bst = BoomState.Seco_TakeDamage;
         }
     }
 
     public void SecoDamage()
     {
-        var time = 0.0f;
-        while (time < _playerPhyCheck.debuffTime)
+        if (isActive)
         {
-            time += Time.deltaTime;
-            if (time >= _playerPhyCheck.debuffTime)
+            timeRemaining -= Time.deltaTime;
+            if (timeRemaining <= 0.0f)
             {
                 bst = BoomState.Init_NoDamage;
+                return;
             }
         }
     }
@@ -115,6 +128,24 @@ public class PlayerBeheviour : MonoBehaviour
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public void FastSpeed()
+    {
+        _playerFsm.patrolSpeed *= fastSpeed;
+        if (_playerPhyCheck.underDici)
+        {
+            sst = SpeedState.Seco_LowSpeed;
+        }
+    }
+
+    public void LowSpeed()
+    {
+        _playerFsm.patrolSpeed *= lowSpeed;
+        if (_playerPhyCheck.underDici)
+        {
+            sst = SpeedState.Init_FastSpeed;
         }
     }
 }

@@ -87,7 +87,7 @@ public class PlayerFSM : MonoBehaviour
     private void Patrol()
     {
         pawnMove.SetSpeed(patrolSpeed);
-        if (fovIns.enemyTarget)
+        /*if (fovIns.enemyTarget)
         {
             _curstate = State.Chase;
         }
@@ -95,7 +95,7 @@ public class PlayerFSM : MonoBehaviour
         {
             
             _curstate = State.Dodge;
-        }
+        }*/
     }
 
     private void Attack()

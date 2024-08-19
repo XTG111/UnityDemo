@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public Attack(int damage, int range)
-    {
-        this.attackdamage = damage;
-        this.attackRange = range;
-    }
     [Header("攻击属性")]
     public int attackdamage = 20;
     public float attackRange = 1;

@@ -101,7 +101,6 @@ public class PawnMove : MonoBehaviour
         _rigidbody.AddForce(dir*hurtForce,ForceMode2D.Impulse);
     }
     
-    
     public void PlayerDead()
     {
         isDead = true;
