@@ -142,7 +142,8 @@ public class PlayerBeheviour : MonoBehaviour
         }*/
         if (_playerPhyCheck.underDici)
         {
-            _playerFsm.patrolSpeed *= lowSpeed;
+            //_playerFsm.patrolSpeed *= lowSpeed;
+            _playerFsm.patrolSpeed = lowSpeed;
             change = false;
             sst = SpeedState.Seco_LowSpeed;
         }
@@ -159,7 +160,8 @@ public class PlayerBeheviour : MonoBehaviour
         
         if (!_playerPhyCheck.underDici)
         {
-            _playerFsm.patrolSpeed *= fastSpeed;
+            //_playerFsm.patrolSpeed *= fastSpeed;
+            _playerFsm.patrolSpeed = fastSpeed;
             change = false;
             sst = SpeedState.Init_FastSpeed;
         }

@@ -132,7 +132,7 @@ public class PlayerPhyCheck : MonoBehaviour
     //检测坑
         bool isFacingRight = transform.localScale.x > 0;
         var checkpoint1 = new Vector2(transform.position.x + (isFacingRight ? nearX : -nearX), transform.position.y+0.5f);
-        RaycastHit2D hitk1 = Physics2D.Raycast(checkpoint1, Vector2.down, 2f, groundLayer);
+        RaycastHit2D hitk1 = Physics2D.Raycast(checkpoint1, Vector2.down, raydisY, groundLayer);
         var checkpoint2 = new Vector2(transform.position.x + (isFacingRight ? farX : -farX), transform.position.y+0.5f);
         RaycastHit2D hitk2 = Physics2D.Raycast(checkpoint2, Vector2.down, raydisY, groundLayer);
 
@@ -187,7 +187,7 @@ public class PlayerPhyCheck : MonoBehaviour
         if(other.CompareTag("Interactable"))
         {
             _targetItem = other.GetComponent<IInteractable>();
-            //_targetItem.TriggerAction(gameObject);
+            _targetItem.TriggerAction(gameObject);
         }
         
         //TODO: 恶魔之泪
@@ -228,7 +228,7 @@ public class PlayerPhyCheck : MonoBehaviour
         bool isFacingRight = transform.localScale.x > 0;
         // 射线的方向根据角色朝向调整
         Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
-        Vector2 lowpoint = new Vector2(transform.position.x, transform.position.y + lowY);
+        Vector2 lowpoint = new Vector2(transform.position.x, transform.position.y + 1.5f);
         RaycastHit2D hitx = Physics2D.Raycast(lowpoint, direction, 1.0f, groundLayer);
         if (hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.sst == SpeedState.Init_FastSpeed)
         {
@@ -236,12 +236,12 @@ public class PlayerPhyCheck : MonoBehaviour
         }
         else if(hitx && hitx.collider.CompareTag("Wood") && _playerBeheviour.sst != SpeedState.Init_FastSpeed)
         {
-            Debug.Log("Wood");
             hitx.collider.isTrigger = false;
             var scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
         }
+        //if(hitx) Debug.Log("Wood" + hitx.collider);
     }
     
     private void OnDrawGizmosSelected()
@@ -256,7 +256,7 @@ public class PlayerPhyCheck : MonoBehaviour
         bool isFacingRight = transform.localScale.x > 0;
         // 射线的方向根据角色朝向调整
         Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
-        Vector2 lowpoint = new Vector2(transform.position.x, transform.position.y + lowY);
+        Vector2 lowpoint = new Vector2(transform.position.x, transform.position.y + 1.5f);
         Gizmos.DrawLine(lowpoint, lowpoint + direction * 2);
         //RaycastHit2D hitx = Physics2D.Raycast(lowpoint, direction, 1.0f, groundLayer);
         

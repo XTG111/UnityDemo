@@ -717,8 +717,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5625ceb8b18164e814dd7a71d1382a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSceneSo: {fileID: 11400000, guid: 504299cdb1459b14b913cf18cf2a4501, type: 2}
-  startLoc: {x: -17.84, y: -2.89, z: 0}
+  gameSceneSo: {fileID: 11400000, guid: 908312712af78d146a868aeeda576477, type: 2}
+  startLoc: {x: 125.6, y: -0.9, z: 0}
   bClicked: 0
   LoadEventSo: {fileID: 11400000, guid: e93032c89a12be6479217cd519ee06cb, type: 2}
 --- !u!1 &507572288
