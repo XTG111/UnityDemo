@@ -108,9 +108,18 @@ public class PlayerInfo : MonoBehaviour
             OnDeath?.Invoke();
             LoadEventSo.RaiseLoadRequestEvent(goToScene,goToLoc,true);
         }
-        
+
+        if (attacker.isBoom)
+        {
+            StartCoroutine(ReturnLoc());
+        }
     }
 
+    IEnumerator ReturnLoc()
+    {
+        yield return new WaitForSeconds(2);
+        transform.position = transform.position + transform.right * 4;
+    }
     IEnumerator GoToMenu()
     {
         yield return new WaitForSeconds(dieTime);

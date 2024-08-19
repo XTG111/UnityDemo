@@ -19,6 +19,10 @@ public class Bomb_Trap : MonoBehaviour
 
     private bool hasExploded = false;
 
+    [Header("炸弹前的位置")] 
+    public Vector3 LastLoc;
+    public bool isBoom;
+
     private void Awake()
     {
         _attack = GetComponent<Attack>();
@@ -71,6 +75,8 @@ public class Bomb_Trap : MonoBehaviour
             if (playerInfo != null && !NoDamage)
             {
                 // 调用 TakeDamage 函数
+                _attack.lastLoc = playerInfo.transform.position;
+                _attack.isBoom = true;
                 _attack.attackdamage = (int)damage;
                 _attack.attackRange = explosionRadius;
                 playerInfo.TakeDamage(_attack);
