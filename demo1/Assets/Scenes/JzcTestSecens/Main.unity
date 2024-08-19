@@ -369,7 +369,7 @@ Transform:
   m_GameObject: {fileID: 376880240}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.8555984, y: -2.15383, z: -10}
+  m_LocalPosition: {x: -17.84, y: -1.82, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -439,6 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impulseSource: {fileID: 656021246}
+  panSpeed: 20
   cameraShakeEvent: {fileID: 11400000, guid: 1df7c826bcece9e40a7110fbefd3954f, type: 2}
   afterLoadScene: {fileID: 11400000, guid: 6723fc527a24b684689a426f4220ccb3, type: 2}
 --- !u!1 &427858235
@@ -979,6 +980,7 @@ MonoBehaviour:
   maxShield: 50
   curShield: 0
   dieTime: 2
+  addDamage: 1
   invulnerableDuration: 5
   invulnerable: 0
   OnTackDamge:
@@ -1221,7 +1223,15 @@ MonoBehaviour:
   nearX: 0.5
   farX: 2.5
   raydisY: 1.1
+  damageHigh: 4
+  baseDamage: 5
+  addDamage: 1
   canJump: 0
+  bInEmo: 0
+  underEmo: 0
+  debuffTime: 0
+  bInDici: 0
+  underDici: 1
 --- !u!114 &687482843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1407,6 +1417,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curState: 0
+  bst: 0
+  sst: 0
+  fastSpeed: 1
+  lowSpeed: 1
 --- !u!1 &694128563
 GameObject:
   m_ObjectHideFlags: 0
