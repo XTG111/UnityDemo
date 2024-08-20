@@ -199,6 +199,7 @@ MonoBehaviour:
   speed: 0
   isHurt: 0
   hurtForce: 0
+  jumpSpeedx: 2
   jumpForce: 10
   isDead: 0
 --- !u!114 &8495481704737879704
@@ -222,18 +223,18 @@ MonoBehaviour:
   isTouchLeftWall: 0
   isTouchRightWall: 0
   lowY: 0.5
-  highY: 1.5
-  raydisX: 1.1
+  highY: 2.2
+  raydisX: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
   nearX: 0.5
   farX: 2.5
   raydisY: 4.1
-  damageHigh: 5
+  damageHigh: 2.2
   baseDamage: 40
   addDamage: 40
-  canJump: 0
+  isFalling: 0
   bInEmo: 0
   underEmo: 0
   debuffTime: 0
@@ -381,10 +382,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovIns: {fileID: 0}
   pawnMove: {fileID: 0}
-  chasingSpeed: 100
+  chasingSpeed: 200
   chasingRotSpeed: 2
   chasingAccuracy: 5
-  patrolSpeed: 100
+  patrolSpeed: 200
   patrolRotSpeed: 2
   patrolAccuracy: 5
   dodgeSpeed: 100
@@ -512,7 +513,7 @@ MonoBehaviour:
   curState: 0
   bst: 0
   sst: 0
-  fastSpeed: 100
+  fastSpeed: 200
   lowSpeed: 100
 --- !u!114 &7808178645356535436
 MonoBehaviour:
@@ -528,6 +529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackdamage: 20
   attackRange: 1
+  underTrigger: 0
   isBoom: 0
   lastLoc: {x: 0, y: 0, z: 0}
 --- !u!1 &8805044449210142093

@@ -26,7 +26,8 @@ public class PawnMove : MonoBehaviour
     [Header("反弹")] 
     public bool isHurt;
     public float hurtForce;
-    [Header("Jump")]
+    [Header("Jump")] 
+    public float jumpSpeedx = 2.0f;
     public float jumpForce = 7.0f;
     
     public bool isDead;
@@ -54,12 +55,26 @@ public class PawnMove : MonoBehaviour
 
     public void Jump()
     {
-        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0); //jumpSpeedx
+        _ppcheck.isFalling = false;
+        Collider2D collider = GetComponent<Collider2D>();
+        collider.enabled = false;
+        
+        /*Debug.Log("_rd.velocity.x: "+_rigidbody.velocity.x);
+        _rigidbody.velocity = new Vector2( jumpSpeedx, 0);*/
+        Debug.Log("jumpSpeedx: "+ jumpSpeedx);
         bool isFacingRight = transform.right.x < 0 ? false : true;
         Vector2 jumpDirection = isFacingRight ? new Vector2(1, 1).normalized : new Vector2(-1, 1).normalized;
         _rigidbody.AddForce(jumpDirection*jumpForce,ForceMode2D.Impulse);
+        
+        StartCoroutine(ReEnableColliderAfterDelay(collider, 0.1f));
     }
     
+    IEnumerator ReEnableColliderAfterDelay(Collider2D collider, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        collider.enabled = true;
+    }
     public void SetSpeed(float val)
     {
         speed = val;

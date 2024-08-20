@@ -15,6 +15,7 @@ public class PlayerFSM : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private PlayerInfo _playerInfo;
     private Attack _attack;
+    private PlayerBeheviour _playerBeheviour;
 
     public FOV fovIns;
     public PawnMove pawnMove;
@@ -44,11 +45,23 @@ public class PlayerFSM : MonoBehaviour
         fovIns = GetComponent<FOV>();
         pawnMove = GetComponent<PawnMove>();
         _playerInfo = GetComponent<PlayerInfo>();
+        _playerBeheviour = GetComponent<PlayerBeheviour>();
     }
 
     private void Start()
     {
-        pawnMove.SetSpeed(patrolSpeed);
+        if (_playerBeheviour.curState == BehaviourState.SpeedPlayer &&
+            _playerBeheviour.sst == SpeedState.Init_FastSpeed)
+        {
+            patrolSpeed = _playerBeheviour.fastSpeed;
+            pawnMove.SetSpeed(_playerBeheviour.fastSpeed);
+        }
+        else
+        {
+            patrolSpeed = _playerBeheviour.lowSpeed;
+            pawnMove.SetSpeed(_playerBeheviour.lowSpeed);
+        }
+        
     }
 
     private void Update()

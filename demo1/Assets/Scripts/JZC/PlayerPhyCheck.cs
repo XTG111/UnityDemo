@@ -9,6 +9,7 @@ public class PlayerPhyCheck : MonoBehaviour
 {
     private CapsuleCollider2D _capCollider2D;//需要更改
     private IInteractable _targetItem;
+    private Rigidbody2D _rigidbody2D;
     private PawnMove _pawnMove;
     private PlayerBeheviour _playerBeheviour;
     private Attack _highAttack;
@@ -38,12 +39,11 @@ public class PlayerPhyCheck : MonoBehaviour
 
     [Header("当前离地高度")] 
     public float damageHigh = 4.0f;
-    private float curHigh = 0;
+    private float curHigh;
     [Header("下落伤害")]
     public float baseDamage = 5.0f;
     public float addDamage = 1.0f;
-    
-    public bool canJump;
+    public bool isFalling = true;
 
     [Header("恶魔之泪状态")] 
     public bool bInEmo = false;
@@ -60,6 +60,7 @@ public class PlayerPhyCheck : MonoBehaviour
         _pawnMove = GetComponent<PawnMove>();
         _playerBeheviour = GetComponent<PlayerBeheviour>();
         _highAttack = GetComponent<Attack>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
         if (!manual)
         {
             rightOffset = new Vector2(
@@ -79,14 +80,10 @@ public class PlayerPhyCheck : MonoBehaviour
         Check();
         CheckWall();
         CheckKeng();
-        if(!bIsGround) CheckHigh();
-        HighDamage();
+        //if(!bIsGround) CheckHigh();
+        CheckHigh();
+        //HighDamage();
         CheckMuKuai();
-        if (raydisY != 4.1f)
-        {
-            return;
-        }
-        
     }
 
     public void Check()
@@ -111,25 +108,37 @@ public class PlayerPhyCheck : MonoBehaviour
         //
         Vector2 heighpoint = new Vector2(transform.position.x, transform.position.y + highY);
         RaycastHit2D hity = Physics2D.Raycast(heighpoint, direction, raydisX, groundLayer);
-
+        
+        Vector2 top = new Vector2(transform.position.x, transform.position.y + 2.0f);
+        RaycastHit2D hittop = Physics2D.Raycast(top, Vector2.up, 1.0f, groundLayer);
+        
         if (hitx.collider && hitx.collider.CompareTag("Wood")) return;
+
+        if (bIsGround && hittop.collider != null)
+        {
+            var scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+            return;
+        }
         
         if (bIsGround && hitx.collider != null && hity.collider == null)
         {
             _pawnMove.Jump();
+            return;
         }
-        if (bIsGround && hitx.collider != null && hity.collider != null)
+        if (bIsGround && hity.collider != null)
         {
             var scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
         }
-        if (bIsGround && hitx.collider == null && hity.collider != null)
+        /*if (bIsGround && hitx.collider == null && hity.collider != null)
         {
             var scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
-        }
+        }*/
     }
 
     private void CheckKeng()
@@ -140,7 +149,9 @@ public class PlayerPhyCheck : MonoBehaviour
         RaycastHit2D hitk1 = Physics2D.Raycast(checkpoint1, Vector2.down, raydisY, groundLayer);
         var checkpoint2 = new Vector2(transform.position.x + (isFacingRight ? farX : -farX), transform.position.y+0.5f);
         RaycastHit2D hitk2 = Physics2D.Raycast(checkpoint2, Vector2.down, raydisY, groundLayer);
-
+        
+        
+        
         if (bIsGround && hitk1.collider == null && hitk2.collider != null)
         {
             _pawnMove.Jump();
@@ -157,6 +168,7 @@ public class PlayerPhyCheck : MonoBehaviour
 
     public void CheckHigh()
     {
+        /*Debug.Log("CheckHigh");
         bool isFacingRight = transform.localScale.x > 0;
         // 射线的方向根据角色朝向调整
         Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
@@ -168,9 +180,36 @@ public class PlayerPhyCheck : MonoBehaviour
             curHigh = Mathf.Max(high, curHigh);
         }
         else curHigh = 50.0f;
+        Debug.Log("curHigh" + curHigh);*/
+        if (_rigidbody2D.velocity.y < 0 && !isFalling)
+        {
+            isFalling = true;
+            curHigh = transform.position.y;
+        }
     }
-    
-    public void HighDamage()
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground") && isFalling)
+        {
+            isFalling = false;
+            float fallDistance = curHigh - transform.position.y;
+            if (fallDistance >= damageHigh)
+            {
+                if (_playerBeheviour.curState == BehaviourState.BoomPlayer && _playerBeheviour.bst != BoomState.Seco_TakeDamage)
+                {
+                    baseDamage *= addDamage;
+                }
+                else baseDamage = 1.0f;
+                _highAttack.attackdamage = (int)(-1 * baseDamage * curHigh);
+                _highAttack.attackRange = 1;
+                Debug.Log("HighDamageCall");
+                gameObject.GetComponent<PlayerInfo>()?.TakeDamage(_highAttack);
+            }
+        }
+    }
+
+    /*public void HighDamage()
     {
         if (bIsGround && curHigh >= damageHigh)
         {
@@ -181,11 +220,12 @@ public class PlayerPhyCheck : MonoBehaviour
             else baseDamage = 1.0f;
             _highAttack.attackdamage = (int)(baseDamage * curHigh);
             _highAttack.attackRange = 1;
+            Debug.Log("HighDamageCall");
             gameObject.GetComponent<PlayerInfo>()?.TakeDamage(_highAttack);
         }
 
         curHigh = 0.0f;
-    }
+    }*/
     
     //检测Buff
     private void OnTriggerStay2D(Collider2D other)

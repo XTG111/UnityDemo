@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3583258885379908531}
   m_Layer: 0
   m_Name: FinalLine
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2759249585992962914}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadEventSo: {fileID: 11400000, guid: e93032c89a12be6479217cd519ee06cb, type: 2}
-  sceneToGo: {fileID: 11400000, guid: b5f0bea3200dc624fa3cd902b4066673, type: 2}
+  sceneToGo: {fileID: 11400000, guid: 5df6ea9fcf6cec44ea70233221251223, type: 2}
   positionToGo: {x: 0, y: 0, z: 0}
 --- !u!61 &3583258885379908531
 BoxCollider2D:

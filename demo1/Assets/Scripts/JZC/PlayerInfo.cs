@@ -111,6 +111,12 @@ public class PlayerInfo : MonoBehaviour
             OnDeath?.Invoke();
             LoadEventSo.RaiseLoadRequestEvent(goToScene,goToLoc,true);
         }
+
+        if (attacker)
+        {
+            Debug.Log("object"+attacker.gameObject);
+        }
+        
         //Debug.Log("Damage");
         if (attacker.isBoom)
         {

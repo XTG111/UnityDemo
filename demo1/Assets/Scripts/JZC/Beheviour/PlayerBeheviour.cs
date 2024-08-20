@@ -33,8 +33,8 @@ public class PlayerBeheviour : MonoBehaviour
     public SpeedState sst = SpeedState.Init_FastSpeed;
 
     [Header("level2 速度")] 
-    public float fastSpeed = 1.0f;
-    public float lowSpeed = 1.0f;
+    public float fastSpeed = 200.0f;
+    public float lowSpeed = 100.0f;
     private bool change = false;
     private float timeRemaining = 0.0f;
     private bool isActive = false;
@@ -44,6 +44,18 @@ public class PlayerBeheviour : MonoBehaviour
         _playerPhyCheck = GetComponent<PlayerPhyCheck>();
         _playerInfo = GetComponent<PlayerInfo>();
         _playerFsm = GetComponent<PlayerFSM>();
+    }
+
+    private void Start()
+    {
+        if (curState == BehaviourState.SpeedPlayer && sst == SpeedState.Init_FastSpeed)
+        {
+            _playerFsm.patrolSpeed = fastSpeed;
+        }
+        else
+        {
+            _playerFsm.patrolSpeed = lowSpeed;
+        }
     }
 
     public void ChangeState()
