@@ -46,7 +46,19 @@ public class PlayerBeheviour : MonoBehaviour
         _playerFsm = GetComponent<PlayerFSM>();
     }
 
-    private void Start()
+    /*private void Start()
+    {
+        if (curState == BehaviourState.SpeedPlayer && sst == SpeedState.Init_FastSpeed)
+        {
+            _playerFsm.patrolSpeed = fastSpeed;
+        }
+        else
+        {
+            _playerFsm.patrolSpeed = lowSpeed;
+        }
+    }*/
+
+    public void ChangeSpeed()
     {
         if (curState == BehaviourState.SpeedPlayer && sst == SpeedState.Init_FastSpeed)
         {
@@ -57,7 +69,7 @@ public class PlayerBeheviour : MonoBehaviour
             _playerFsm.patrolSpeed = lowSpeed;
         }
     }
-
+    
     public void ChangeState()
     {
         if (curState == BehaviourState.BoomPlayer)

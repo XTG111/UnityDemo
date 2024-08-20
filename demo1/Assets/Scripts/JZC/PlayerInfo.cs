@@ -114,7 +114,7 @@ public class PlayerInfo : MonoBehaviour
 
         if (attacker)
         {
-            Debug.Log("object"+attacker.gameObject);
+           // Debug.Log("object"+attacker.gameObject);
         }
         
         //Debug.Log("Damage");

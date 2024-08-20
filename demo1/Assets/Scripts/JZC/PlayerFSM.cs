@@ -48,7 +48,7 @@ public class PlayerFSM : MonoBehaviour
         _playerBeheviour = GetComponent<PlayerBeheviour>();
     }
 
-    private void Start()
+    /*private void Start()
     {
         if (_playerBeheviour.curState == BehaviourState.SpeedPlayer &&
             _playerBeheviour.sst == SpeedState.Init_FastSpeed)
@@ -62,7 +62,7 @@ public class PlayerFSM : MonoBehaviour
             pawnMove.SetSpeed(_playerBeheviour.lowSpeed);
         }
         
-    }
+    }*/
 
     private void Update()
     {

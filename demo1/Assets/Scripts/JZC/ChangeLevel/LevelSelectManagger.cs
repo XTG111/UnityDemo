@@ -109,6 +109,7 @@ public class LevelSelectManagger : MonoBehaviour
         if (playerbhv && currentLoadScene.sceneType != SceneType.Main)
         {
             playerbhv.ChangeState();
+            playerbhv.ChangeSpeed();
         }
 
     }
